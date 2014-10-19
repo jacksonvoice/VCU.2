@@ -2,6 +2,10 @@
 
 FactoryGirl.define do
   factory :course do
-    name "MyString"
+    name "pedagogy"
+
+    factory :invalid_course do
+    	name nil
+    end
   end
 end

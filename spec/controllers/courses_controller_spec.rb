@@ -3,16 +3,31 @@ require 'rails_helper'
 RSpec.describe CoursesController, :type => :controller do
 
 describe "GET #index" do
-  it "assigns all courses to @course"
-  it "renders the :index view"
+  it "renders the :index view" do 
+    get :index
+    expect(response).to render_template :index
+  end
+
+  it "creates a course" do
+    course = create(:course)
+    expect(course).to be_valid
+  end
+
+  it "assigns all courses to @course" do
+    course1 = create(:course, name: "technique")
+    course2 = create(:course, name: "musicality")
+    get :index
+    expect(assigns(:courses)).to eq([course1, course2])
+  end
+ 
 end
 
-descibe "GET #show" do
+describe "GET #show" do
   it "assigns the requested course to @course"
   it "renders the :show template"
 end
 
-describe "GET #edit"
+describe "GET #edit" do
   it "assigns the requested course to @course"
   it "renders the edit template"
 end

@@ -30,7 +30,17 @@ gem 'spring',        group: :development
 group :development, :test do 
 	gem 'rspec-rails', '~> 3.0.0'
 	gem 'factory_girl_rails'
+	gem 'shoulda'
 end
+
+group :test do
+	gem "faker"
+	gem "capybara"
+	gem "database_cleaner"
+	gem "launchy"
+	gem "selenium-webdriver"
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
