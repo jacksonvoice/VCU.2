@@ -4,124 +4,91 @@ require 'rails_helper'
 RSpec.describe SectionsController, :type => :controller do
 
 
-  describe "GET index" do
-    it "assigns all sections as @sections" do
-      section = Section.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:sections)).to eq([section])
+  describe "Get #show" do
+    before :each do
+      @course = create(:course)
+      @section = create(:section)
     end
+
+      it "assigns the correct course.section to @section" do
+        get :show, course_id: @section.course_id, id: @section.id
+        expect(assigns(:section)).to eq(@section)
+        expect(@course.id).to eq(@section.course_id)
+      end
+
+      it "renders the section :show template" do
+        get :show, course_id: @section.course_id, id: @section.id
+        expect(response).to render_template :show
+      end
+
   end
 
-  describe "GET show" do
-    it "assigns the requested section as @section" do
-      section = Section.create! valid_attributes
-      get :show, {:id => section.to_param}, valid_session
-      expect(assigns(:section)).to eq(section)
+  describe "GET #edit" do
+    before :each do
+      @course = create(:course)
+      @section = create(:section)
     end
+
+    it "assings the correct course.section to @section" do
+      get :edit, course_id: @section.course_id, id: @section.id
+      expect(assigns(:section)).to eq(@section)
+      expect(@course.id).to eq(@section.course_id)
+    end
+
+    it "renders the section :edit template" do
+      get :edit, course_id: @section.course_id, id: @section.id
+      expect(response).to render_template :edit
+    end
+
   end
 
-  describe "GET new" do
-    it "assigns a new section as @section" do
-      get :new, {}, valid_session
+  describe "Get #new" do
+    before :each do 
+      @course = create(:course)
+      @section = create(:section)
+    end
+
+    it "assings the a new section to @section" do
+      get :new, course_id: @course.id
       expect(assigns(:section)).to be_a_new(Section)
     end
-  end
 
-  describe "GET edit" do
-    it "assigns the requested section as @section" do
-      section = Section.create! valid_attributes
-      get :edit, {:id => section.to_param}, valid_session
-      expect(assigns(:section)).to eq(section)
+    it "renders the course.sections :new template" do
+      get :new, course_id: @course.id
+      expect(response).to render_template :new
     end
+
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Section" do
-        expect {
-          post :create, {:section => valid_attributes}, valid_session
-        }.to change(Section, :count).by(1)
+  describe "POST #create" do
+    context "with valid params" do
+      it "creates a new course section in the database" do
+        course = create(:course)
+        expect { post :create, course_id: course.id, section: attributes_for(:section) }.to change(Section, :count).by(1)
       end
 
-      it "assigns a newly created section as @section" do
-        post :create, {:section => valid_attributes}, valid_session
-        expect(assigns(:section)).to be_a(Section)
-        expect(assigns(:section)).to be_persisted
-      end
-
-      it "redirects to the created section" do
-        post :create, {:section => valid_attributes}, valid_session
-        expect(response).to redirect_to(Section.last)
+      it "redirectes to the course.section show page" do
+        course = create(:course)
+        post :create, course_id: course.id, section: attributes_for(:section)
+        expect(response).to redirect_to course_section_path(course.id, assigns(:section))
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved section as @section" do
-        post :create, {:section => invalid_attributes}, valid_session
-        expect(assigns(:section)).to be_a_new(Section)
-      end
+    context "with invalid params" do
+      it "does not save the new section in the database" do
+       course = create(:course)
+       expect { post :create, course_id: course.id, section: attributes_for(:invalid_section)}.to change(Section, :count).by(0)
+     end
 
-      it "re-renders the 'new' template" do
-        post :create, {:section => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
-      end
+      it "re-renders the :new course.section page"
+      it "redirects to the correct course id page"
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested section" do
-        section = Section.create! valid_attributes
-        put :update, {:id => section.to_param, :section => new_attributes}, valid_session
-        section.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "assigns the requested section as @section" do
-        section = Section.create! valid_attributes
-        put :update, {:id => section.to_param, :section => valid_attributes}, valid_session
-        expect(assigns(:section)).to eq(section)
-      end
-
-      it "redirects to the section" do
-        section = Section.create! valid_attributes
-        put :update, {:id => section.to_param, :section => valid_attributes}, valid_session
-        expect(response).to redirect_to(section)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the section as @section" do
-        section = Section.create! valid_attributes
-        put :update, {:id => section.to_param, :section => invalid_attributes}, valid_session
-        expect(assigns(:section)).to eq(section)
-      end
-
-      it "re-renders the 'edit' template" do
-        section = Section.create! valid_attributes
-        put :update, {:id => section.to_param, :section => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
-      end
-    end
+  describe "PATCH #update" do
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested section" do
-      section = Section.create! valid_attributes
-      expect {
-        delete :destroy, {:id => section.to_param}, valid_session
-      }.to change(Section, :count).by(-1)
-    end
-
-    it "redirects to the sections list" do
-      section = Section.create! valid_attributes
-      delete :destroy, {:id => section.to_param}, valid_session
-      expect(response).to redirect_to(sections_url)
-    end
-  end
+  describe "DELETE #destroy" do
+  end 
 
 end

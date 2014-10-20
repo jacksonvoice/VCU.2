@@ -2,8 +2,12 @@
 
 FactoryGirl.define do
   factory :section do
-    name "MyString"
-    course_id "MyString"
-    integer "MyString"
+    name "exercises"
+    course_id 1
+
+    factory :invalid_section do
+    	name nil
+    	course_id nil
+    end
   end
 end
