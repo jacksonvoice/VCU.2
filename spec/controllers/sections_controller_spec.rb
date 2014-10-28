@@ -79,16 +79,76 @@ RSpec.describe SectionsController, :type => :controller do
        course = create(:course)
        expect { post :create, course_id: course.id, section: attributes_for(:invalid_section)}.to change(Section, :count).by(0)
      end
-
-      it "re-renders the :new course.section page"
-      it "redirects to the correct course id page"
+      it "re-renders the :new course.section page" do
+        course = create(:course)
+        post :create, course_id: course.id, section: attributes_for(:invalid_section)
+        expect(response).to redirect_to new_course_section_path(course)
+      end
+      it "redirects to the correct course id page" do
+        course = create(:course)
+        post :create, course_id: course.id, section: attributes_for(:invalid_section)
+        expect(response).to redirect_to(new_course_section_path)
+      end
     end
   end
 
   describe "PATCH #update" do
+    context "with valid attributes" do
+      before :each do 
+          @course = create(:course)
+          @section = create(:section, name: "section1")
+      end
+      it "finds the correct course.section assigns @section" do 
+        post :update, course_id: @section.course_id, id: @section.id, section: attributes_for(:section)
+        expect(assigns(:section)).to eq(@section)
+      end
+      it "updates the content of @section" do
+        post :update, course_id: @section.course_id, id: @section.id, section: attributes_for(:section)
+        @section.reload
+        expect(@section.name).to eq("exercises")
+      end
+      it "redirects to the show page @section updated" do
+        post :update, course_id: @section.course_id, id: @section.id, section: attributes_for(:section)
+        expect(response).to redirect_to(course_section_path)
+      end
+    end
+
+    context "with invalid attributes " do
+      before :each do 
+          @course = create(:course)
+          @section = create(:section, name: "section1")
+      end
+      it "finds the correct course.section assigns @section" do
+        post :update, course_id: @section.course_id, id: @section.id, section: attributes_for(:invalid_section)
+        expect(assigns(:section)).to eq(@section)
+      end
+      it "does not update the content of @section" do
+        post :update, course_id: @section.course_id, id: @section.id, section: attributes_for(:invalid_section)
+        @section.reload
+        expect(@section.name).to eq("section1")
+      end
+      it "redirects back to the :edit page @section" do
+        post :update, course_id: @section.course_id, id: @section.id, section: attributes_for(:invalid_section)
+        expect(@section.course_id).to eq(1)
+        expect(@section.id).to eq(1)
+        expect(response).to redirect_to(edit_course_section_path(@section.course_id, @section.id))
+      end
+    end
   end
 
   describe "DELETE #destroy" do
+    before :each do 
+      @course = create(:course)
+      @section = create(:section)
+    end
+    it "removes the requested section from the database" do
+      expect{ delete :destroy, course_id: @section.course_id, id: @section.id }.to change(Section, :count).by(-1)
+    end
+
+    it "redirects to the course index" do
+      delete :destroy, course_id: @section.course_id, id: @section.id
+      expect(response).to redirect_to(course_path)
+    end
   end 
 
 end

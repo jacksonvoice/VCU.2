@@ -14,6 +14,8 @@ class SectionsController < ApplicationController
   def new
     @course = Course.find(params[:course_id])
     @section = @course.sections.build
+
+
   end
 
   def create
@@ -28,10 +30,30 @@ class SectionsController < ApplicationController
     end
   end
 
+  def update
+    @course = Course.find(params[:course_id])
+    @section = Section.find(params[:id])
+      if @section.update_attributes(section_params)
+      flash[:success] = "the section has been updated"
+      redirect_to [@course, @section]
+    else
+      flash[:error] = "you must enter the correct information"
+      redirect_to edit_course_section_path
+    end
+  end
+
+  def destroy
+    @course = Course.find(params[:course_id])
+    @section = Section.find(params[:id])
+    @section.destroy
+    redirect_to course_path(@course)
+
+  end
+
 private 
 
   def section_params
-    params.require(:section).permit(:name, :course_id)    
+    params.require(:section).permit(:name, :course_id) 
   end
 
 

@@ -98,7 +98,7 @@ describe "POST #create" do
   end
 end
 
-describe "PUT #update" do
+describe "PATCH #update" do
   before :each do
     @course = create(:course,
         name: "musicality")

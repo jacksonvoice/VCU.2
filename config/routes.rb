@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :videos
+
   resources :quizzes
 
   resources :courses do
