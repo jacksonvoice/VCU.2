@@ -8,10 +8,12 @@ RSpec.describe Section, :type => :model do
   	it "has a valid factory" do
   		expect(build(:section)).to be_valid
 	end
+
   it "is valid with a name & course_id" do
   	section = Section.new(name: 'namehere', course_id: 1)
   	expect(section).to be_valid
   end
+  
   it "is invalid with no name" do
   	section = Section.new(name: '', course_id: 1)
   	expect(section).to be_invalid
