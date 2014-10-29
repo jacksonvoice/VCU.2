@@ -4,6 +4,8 @@ require 'rails_helper'
 RSpec.describe SectionsController, :type => :controller do
 
 
+
+
   describe "Get #show" do
     before :each do
       @course = create(:course)

@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
 
-  resources :videos
+resources :videos, only: [:index]
 
-  resources :quizzes
 
   resources :courses do
-    resources :sections
+    resources :sections do
+      resources :videos
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
