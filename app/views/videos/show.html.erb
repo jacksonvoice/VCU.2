@@ -10,5 +10,5 @@
   <%= @video.section_id %>
 </p>
 
-<%= link_to 'Edit', edit_video_path(@video) %> |
-<%= link_to 'Back', videos_path %>
+<%= link_to 'Edit', edit_course_section_video_path(@course, @section, @video) %> |
+<%= link_to 'Back', course_section_path(@section.course_id, @section.id) %>

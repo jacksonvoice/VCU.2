@@ -1,19 +1,20 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @section.name %>
-</p>
 
 <p>
   <strong>Course:</strong>
-  <%= @section.course_id %>
+  <%= @course.name %>
 </p>
-
 <p>
-  <strong>Integer:</strong>
-  <%= @section.integer %>
+  
+  <h2><%= @section.name %></h2>
+  <% @section.videos.each do |video| %>
+  	<%= video.name %>
+  <% end %>
 </p>
 
-<%= link_to 'Edit', edit_section_path(@section) %> |
-<%= link_to 'Back', sections_path %>
+
+<%= link_to 'Add Video', new_course_section_video_path(@course, @section) %>
+<%= link_to 'Delete', course_section_path(@course, @section), confirm: "Are you sure?", method: :delete %>|
+<%= link_to 'Edit', edit_course_section_path(@course, @section) %> |
+<%= link_to 'Back', course_path(@course) %>

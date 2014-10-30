@@ -1,3 +1,38 @@
 // Place all the styles related to the Courses controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+
+.course_container {
+
+	min-height: 10px;;
+	border: 1px solid #333333;
+	border-radius: 5px;
+	background-color: #cccccc;
+	
+
+	ul {
+		color: #191919;
+		padding-top: 10px;
+		margin-bottom: .95rem;
+		list-style-type: none;
+
+		li {
+			display: inline-block;
+			padding-right: 20px;
+		}
+	}
+}
+
+.crud_links {
+	padding-top: 25px;
+
+}
+
+#course_name:visited {
+	color: #191919;;
+	 
+
+}

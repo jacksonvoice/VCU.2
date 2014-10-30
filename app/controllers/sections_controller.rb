@@ -23,7 +23,7 @@ class SectionsController < ApplicationController
     @section = @course.sections.build(section_params)
     if @section.save
       flash[:success] = "you created a new section!"
-      redirect_to course_section_path( @section.course_id, @section.id )
+      redirect_to course_section_path( @course.id, @section.id )
     else
       flash[:error] = "Invlaid attributes, please try again"
       redirect_to new_course_section_path(@course)
@@ -35,7 +35,7 @@ class SectionsController < ApplicationController
     @section = Section.find(params[:id])
       if @section.update_attributes(section_params)
       flash[:success] = "the section has been updated"
-      redirect_to [@course, @section]
+      redirect_to [@course]
     else
       flash[:error] = "you must enter the correct information"
       redirect_to edit_course_section_path

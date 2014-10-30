@@ -2,8 +2,13 @@
 
 <p>
   <strong>Name:</strong>
-  <%= @course.name %>
+  <h2><%= @course.name %></h2>
+  <% @course.sections.each do |section| %>
+  		<div>
+  			<h4><%= link_to "#{section.name}", course_section_path(section.course_id, section.id) %></h4>
+  		</div>
+  <% end %>
 </p>
 <%= link_to 'Add Section', new_course_section_path(@course) %>
 <%= link_to 'Edit', edit_course_path(@course) %> |
-<%= link_to 'Back', courses_path %>
+<%= link_to 'Back', courses_path(@course) %>
