@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
+get 'signup', to: 'uesrs#new', as: 'signup'
+get "login", to: 'sessions#new', as: 'login'
+get 'logout', to: 'session#destroy', as: 'logout'
 
+
+  resources :sessions
+   resources :users
 
 resources :videos, only: [:index]
 

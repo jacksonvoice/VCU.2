@@ -1,5 +1,7 @@
 class CoursesController < ApplicationController
 
+before_filter :authorize, only: [:edit, :update, :create, :destroy]
+
 def index
   @course = Course.all
 end
